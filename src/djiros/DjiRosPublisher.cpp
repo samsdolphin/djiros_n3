@@ -23,6 +23,8 @@ bool DjiRos::initPublisher( ros::NodeHandle &nh )
  */
     gps_position_publisher = nh.advertise< sensor_msgs::NavSatFix >( "gps", 10 );
 
+    gps_pose_publisher = nh.advertise<nav_msgs::Odometry>("gps_pose",10);
+
     velocity_publisher = nh.advertise< geometry_msgs::Vector3Stamped >( "velo", 10 );
 
     from_mobile_data_publisher =
@@ -181,8 +183,8 @@ void DjiRos::onReceive50HzData( Vehicle *vehicle, RecvContainer recvFrame,
           vehicle->subscribe->getValue<Telemetry::TOPIC_GPS_FUSED>();
       Telemetry::TypeMap<Telemetry::TOPIC_GPS_POSITION>::type gps_raw_vec =
           vehicle->subscribe->getValue<Telemetry::TOPIC_GPS_POSITION>();
-      Telemetry::TypeMap<Telemetry::TOPIC_GPS_DETAILS>::type gps_detail =
-          vehicle->subscribe->getValue<Telemetry::TOPIC_GPS_DETAILS>();
+//      Telemetry::TypeMap<Telemetry::TOPIC_GPS_DETAILS>::type gps_detail =
+//          vehicle->subscribe->getValue<Telemetry::TOPIC_GPS_DETAILS>();
       Telemetry::TypeMap<Telemetry::TOPIC_HEIGHT_FUSION>::type height =
           vehicle->subscribe->getValue<Telemetry::TOPIC_HEIGHT_FUSION>();
 
@@ -190,6 +192,13 @@ void DjiRos::onReceive50HzData( Vehicle *vehicle, RecvContainer recvFrame,
       gps_pos[0] = (( int)(gps_raw_vec.x)) / (1e7);
       gps_pos[1] = (( int)(gps_raw_vec.y)) / (1e7);
       gps_pos[2] = ((int)(gps_raw_vec.z)) / (1e7);
+      nav_msgs::Odometry odometry;
+      odometry.header.stamp = msg_stamp;
+      odometry.header.frame_id = "NED";
+      odometry.pose.pose.position.x = gps_pos[0];
+      odometry.pose.pose.position.y = gps_pos[1];
+      odometry.pose.pose.position.z = gps_pos[2];
+      p->gps_pose_publisher.publish(odometry);
 //      gps_pos[0] = ((int)(gps_raw_vec.x)) / (1e7) * 57.3;
 //      gps_pos[1] = ((int)(gps_raw_vec.y)) / (1e7) * 57.3;
 //      gps_pos[2] = ((int)(gps_raw_vec.z)) / (1e7) * 57.3;

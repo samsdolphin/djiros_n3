@@ -58,7 +58,6 @@
 // ros includes
 #include <ros/ros.h>
 #include <sensor_msgs/Joy.h>
-#include <nav_msgs/Odometry.h>
 
 #include <dji_sdk/dji_sdk_node.h>
 #include <djiros/HardwareSync.h>

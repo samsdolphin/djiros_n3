@@ -25,6 +25,7 @@
 #include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/TimeReference.h>
 #include <std_msgs/UInt8.h>
+#include <nav_msgs/Odometry.h>
 
 //! msgs
 #include <djiros/Gimbal.h>

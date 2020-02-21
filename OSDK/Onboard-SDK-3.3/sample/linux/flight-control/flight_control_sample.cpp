@@ -768,6 +768,7 @@ localOffsetFromGpsOffset(Vehicle* vehicle, Telemetry::Vector3f& deltaNed,
   Telemetry::GlobalPosition* broadcastOrigin;
   double                     deltaLon;
   double                     deltaLat;
+
   if (vehicle->getFwVersion() != Version::M100_31)
   {
     subscriptionTarget = (Telemetry::GPSFused*)target;

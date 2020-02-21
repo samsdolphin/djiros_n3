@@ -208,6 +208,7 @@ Broadcast::updateFlightPosition()
 void
 Broadcast::updateGPS()
 {
+
   ui->le_gps_date->setText(
     QString::number(vehicle->broadcast->getGPSInfo().time.date));
   ui->le_gps_time->setText(
